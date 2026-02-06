@@ -167,6 +167,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 70630165461458197, guid: 45bfde88437dda742a8f078cae1a0fb3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7660957312995903759}
+    - targetCorrespondingSourceObject: {fileID: 70630165461458197, guid: 45bfde88437dda742a8f078cae1a0fb3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2154211308667448042}
   m_SourcePrefab: {fileID: 100100000, guid: 45bfde88437dda742a8f078cae1a0fb3, type: 3}
 --- !u!1 &5389204282850468386 stripped
 GameObject:
@@ -211,6 +214,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DealDamageOnContract
   damages: 5
+--- !u!114 &-2154211308667448042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5389204282850468386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e634766eb4e276d44b6ae5c2abfad048, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnOnDestroy
+  prefab: {fileID: 7199095138592314136, guid: 987692d8a7e614b45a256ee03aa2cf85, type: 3}
 --- !u!4 &5818308762743329605 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1913582895042849906, guid: 45bfde88437dda742a8f078cae1a0fb3, type: 3}
