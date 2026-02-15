@@ -167,6 +167,7 @@ GameObject:
   - component: {fileID: 2151969925413268900}
   - component: {fileID: 537439110410564326}
   - component: {fileID: 6645516602062977036}
+  - component: {fileID: 6616056770620994760}
   m_Layer: 0
   m_Name: RightTrack
   m_TagString: Untagged
@@ -1079,7 +1080,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 25
+      scalar: 50
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4992,6 +4993,18 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!114 &6616056770620994760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160651850583000914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d235297201ab3b4eaa1b07fa9c44cde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParticleAligner
 --- !u!1 &3764324891971193671
 GameObject:
   m_ObjectHideFlags: 0
@@ -10196,6 +10209,7 @@ GameObject:
   - component: {fileID: 6587633153364257417}
   - component: {fileID: 6635081528389810736}
   - component: {fileID: 8595934969751519629}
+  - component: {fileID: 4563326505820920184}
   m_Layer: 0
   m_Name: LeftTrack
   m_TagString: Untagged
@@ -11108,7 +11122,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 25
+      scalar: 50
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -15021,6 +15035,18 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!114 &4563326505820920184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5330773019481368371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d235297201ab3b4eaa1b07fa9c44cde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParticleAligner
 --- !u!1 &5698188685575689526
 GameObject:
   m_ObjectHideFlags: 0

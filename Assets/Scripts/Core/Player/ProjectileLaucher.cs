@@ -75,7 +75,7 @@ public class ProjectileLaucher : NetworkBehaviour
         wallet.SpendCoins(costToFire);
 
         GameObject projectileInstance = Instantiate(
-            clientProjectilePrefab,
+            serverProjectilePrefab,
             spawnPos,
             Quaternion.identity);
 

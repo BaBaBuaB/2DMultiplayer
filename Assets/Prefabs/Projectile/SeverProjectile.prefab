@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 70630165461458197, guid: 45bfde88437dda742a8f078cae1a0fb3, type: 3}
       propertyPath: m_Name
-      value: ProjectileBase Variant 1
+      value: SeverProjectile
       objectReference: {fileID: 0}
     - target: {fileID: 1913582895042849906, guid: 45bfde88437dda742a8f078cae1a0fb3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -62,6 +62,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 70630165461458197, guid: 45bfde88437dda742a8f078cae1a0fb3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7833499259476336822}
+    - targetCorrespondingSourceObject: {fileID: 70630165461458197, guid: 45bfde88437dda742a8f078cae1a0fb3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3736025851637066465}
+    - targetCorrespondingSourceObject: {fileID: 70630165461458197, guid: 45bfde88437dda742a8f078cae1a0fb3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -5450266735796228876}
   m_SourcePrefab: {fileID: 100100000, guid: 45bfde88437dda742a8f078cae1a0fb3, type: 3}
 --- !u!1 &7966952907920900089 stripped
 GameObject:
@@ -93,3 +99,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c245417968fdf64396d2ce91af988b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestroySelfOnContract
+--- !u!114 &3736025851637066465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7966952907920900089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99fa2828211972d4cb045484823a86ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DealDamageOnContract
+  damages: 5
+--- !u!114 &-5450266735796228876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7966952907920900089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e634766eb4e276d44b6ae5c2abfad048, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnOnDestroy
+  prefab: {fileID: 7199095138592314136, guid: 987692d8a7e614b45a256ee03aa2cf85, type: 3}
