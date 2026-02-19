@@ -29,4 +29,8 @@ public class HostSingletron : MonoBehaviour
     {
         GameManager = new HostManager();
     }
+    private void OnDestroy()
+    {
+        GameManager?.Dispose();
+    }
 }

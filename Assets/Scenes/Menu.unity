@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 8033173}
   - component: {fileID: 8033175}
   - component: {fileID: 8033174}
+  - component: {fileID: 8033176}
   m_Layer: 0
   m_Name: LobbiesBackground
   m_TagString: Untagged
@@ -199,6 +200,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8033172}
   m_CullTransparentMesh: 1
+--- !u!114 &8033176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8033172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6943b2ec2ca74a4cb5c431e757c09a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LobbyList
+  lobbyItemParent: {fileID: 858878310}
+  lobbyItemPrefab: {fileID: 7687238245487057811}
 --- !u!1 &177317838
 GameObject:
   m_ObjectHideFlags: 0
@@ -1637,7 +1652,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1171390285
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3318,6 +3333,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1723912632799285528, guid: add603cf691fb2d4da639eb818b9e3c2, type: 3}
   m_PrefabInstance: {fileID: 7687238245487057809}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7687238245487057811 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 801065553811228795, guid: add603cf691fb2d4da639eb818b9e3c2, type: 3}
+  m_PrefabInstance: {fileID: 7687238245487057809}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d6bbdcec00874747800cd55574dbb7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LobbyItem
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
