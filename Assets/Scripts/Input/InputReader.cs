@@ -30,7 +30,6 @@ public class InputReader : ScriptableObject, IPlayerActions
         controls.Player.Disable();
     }
 
-
     public void OnMove(InputAction.CallbackContext context)
     {
         MoveEvent?.Invoke(context.ReadValue<Vector2>());
@@ -50,6 +49,6 @@ public class InputReader : ScriptableObject, IPlayerActions
 
     public void OnAim(InputAction.CallbackContext context)
     {
-        AimPosition = context.ReadValue<Vector2>();   
+        AimPosition = context.ReadValue<Vector2>();
     }
 }
