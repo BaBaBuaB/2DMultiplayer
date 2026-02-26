@@ -1,23 +1,50 @@
-using UnityEngine;
-using Unity.Netcode;
+using System;
 using Unity.Cinemachine;
+using Unity.Collections;
+using Unity.Netcode;
+using UnityEngine;
 
 public class TankPlayer : NetworkBehaviour
 {
-    [Header("References")] [SerializeField]
-    private CinemachineCamera cinemachineCamera;
-    
+    [Header("References")]
+    [SerializeField] private CinemachineCamera virtualCamera;
+    //[SerializeField] private Image crossHair;
+
     [field: SerializeField] public Health Health { get; private set; }
     [field: SerializeField] public CoinWallet Wallet { get; private set; }
 
-    [Header("Settings")] [SerializeField] private int ownerPriority = 15;
+    [Header("Settings")]
+    [SerializeField] private int ownerPriority = 15;
+
+    public NetworkVariable<FixedString32Bytes> PlayerName = new NetworkVariable<FixedString32Bytes>();
+    public NetworkVariable<int> TeamIndex = new NetworkVariable<int>();
+    public static event Action<TankPlayer> OnPlayerSpawned;
+    public static event Action<TankPlayer> OnPlayerDespawned;
 
     public override void OnNetworkSpawn()
     {
-        if (IsOwner)
+        if (IsServer)
         {
-            cinemachineCamera.Priority = ownerPriority;
+            UserData userData =
+                HostSingletron.Instance.GameManager.NetworkServer.GetUserDataByClientId(OwnerClientId);
+
+            PlayerName.Value = userData.userName;
+            TeamIndex.Value = userData.teamIndex;
+
+            OnPlayerSpawned?.Invoke(this);
         }
 
+        if (IsOwner)
+        {
+            virtualCamera.Priority = ownerPriority;
+        }
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        if (IsServer)
+        {
+            OnPlayerDespawned?.Invoke(this);
+        }
     }
 }

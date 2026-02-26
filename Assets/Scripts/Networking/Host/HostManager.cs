@@ -21,7 +21,7 @@ public class HostManager : IDisposable
     private string joinCode;
     private string lobbyId;
 
-    private NetworkServer networkServer;
+    public NetworkServer NetworkServer { get; private set; }
 
     private const int MaxConnections = 20;
     private const string GameSceneName = "Game";
@@ -32,7 +32,7 @@ public class HostManager : IDisposable
         {
             allocation = await RelayService.Instance.CreateAllocationAsync(MaxConnections);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.Log(e);
             return;
@@ -41,14 +41,14 @@ public class HostManager : IDisposable
         {
             joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
             Debug.Log(joinCode);
-            PlayerPrefs.SetString(JoinCodeKey,joinCode);
+            PlayerPrefs.SetString(JoinCodeKey, joinCode);
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
             Debug.Log(e);
             return;
         }
-        
+
         UnityTransport transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
 
         RelayServerData relayServerData = allocation.ToRelayServerData("dtls");
@@ -69,7 +69,7 @@ public class HostManager : IDisposable
             };
             string playerName = PlayerPrefs.GetString(NameSelector.PlayerNameKey, "Unknown");
             Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(
-                $"{playerName}'s Lobby",MaxConnections,lobbyOptions);
+                $"{playerName}'s Lobby", MaxConnections, lobbyOptions);
             lobbyId = lobby.Id;
 
             HostSingletron.Instance.StartCoroutine(HeartbeatLobby(15));
@@ -80,8 +80,8 @@ public class HostManager : IDisposable
             return;
         }
 
-        networkServer = new NetworkServer(NetworkManager.Singleton);
-        
+        NetworkServer = new NetworkServer(NetworkManager.Singleton);
+
         UserData userData = new UserData
         {
             userName = PlayerPrefs.GetString(NameSelector.PlayerNameKey, "Missing Name"),
@@ -91,7 +91,7 @@ public class HostManager : IDisposable
         byte[] payloadBytes = Encoding.UTF8.GetBytes(payload);
 
         NetworkManager.Singleton.NetworkConfig.ConnectionData = payloadBytes;
-        
+
         NetworkManager.Singleton.StartHost();
 
         NetworkManager.Singleton.SceneManager.LoadScene(GameSceneName, LoadSceneMode.Single);
@@ -101,13 +101,13 @@ public class HostManager : IDisposable
     {
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(waitTimeSeconds);
 
-        while (true) 
+        while (true)
         {
             LobbyService.Instance.SendHeartbeatPingAsync(lobbyId);
             yield return delay;
         }
     }
-    
+
     public async void Dispose()
     {
         HostSingletron.Instance.StopCoroutine(nameof(HeartbeatLobby));
@@ -126,6 +126,6 @@ public class HostManager : IDisposable
             lobbyId = string.Empty;
         }
 
-        networkServer?.Dispose();
+        NetworkServer?.Dispose();
     }
 }

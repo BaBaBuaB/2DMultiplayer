@@ -44,12 +44,28 @@ public class NetworkServer : IDisposable
         //Debug.Log(userData.userName);
 
         response.Approved = true;
+        response.Position = SpawnPoints.GetRandomSpawnPos();
+        response.Rotation = Quaternion.identity;
         response.CreatePlayerObject = true;
     }
 
-    public void Dispose()
+    public UserData GetUserDataByClientId(ulong clientId)
     {
-        if (networkManager == null) { return; }
+        if(clientIdToAuth.TryGetValue(clientId,out string authId))
+        {
+            if(authIdToUserData.TryGetValue(authId,out UserData data))
+            {
+                return data;
+            }
+            return null;
+        }
+        return null;
+    }
+
+    public void Dispose() 
+    { 
+        if(networkManager == null) { return; }
+
         networkManager.ConnectionApprovalCallback -= ApprovalCheck;
         networkManager.OnClientDisconnectCallback -= OnClientDisconnect;
         networkManager.OnServerStarted -= OnNetworkReady;
