@@ -8,9 +8,9 @@ public class RespawnHandle : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if(!IsServer) { return; }
+        if (!IsServer) { return; }
         TankPlayer[] players = FindObjectsByType<TankPlayer>(FindObjectsSortMode.None);
-        foreach(TankPlayer player in players)
+        foreach (TankPlayer player in players)
         {
             HandlePlayerSpawned(player);
         }

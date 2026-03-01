@@ -15333,7 +15333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3185041451
+  GlobalObjectIdHash: 3691692097
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -15508,6 +15508,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TankPlayer
   ShowTopMostFoldoutHeaderGroup: 1
   virtualCamera: {fileID: 7709039401109621216}
+  crosshair: {fileID: 2800000, guid: 0a07aa6c8e0036a4e986443af5afbbd3, type: 3}
   <Health>k__BackingField: {fileID: 1985261987899888357}
   <Wallet>k__BackingField: {fileID: 4026986628617530543}
   ownerPriority: 15

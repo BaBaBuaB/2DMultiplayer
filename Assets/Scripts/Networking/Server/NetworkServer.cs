@@ -7,8 +7,10 @@ public class NetworkServer : IDisposable
 {
     private NetworkManager networkManager;
 
-    private Dictionary<ulong,string> clientIdToAuth = new Dictionary<ulong,string>();
-    private Dictionary<string,UserData> authIdToUserData = new Dictionary<string,UserData>();
+    public Action<string> OnClientLeft;
+
+    private Dictionary<ulong, string> clientIdToAuth = new Dictionary<ulong, string>();
+    private Dictionary<string, UserData> authIdToUserData = new Dictionary<string, UserData>();
 
     public NetworkServer(NetworkManager networkManager)
     {
@@ -17,23 +19,24 @@ public class NetworkServer : IDisposable
         networkManager.ConnectionApprovalCallback += ApprovalCheck;
         networkManager.OnServerStarted += OnNetworkReady;
     }
-    
+
     private void OnNetworkReady()
     {
         networkManager.OnClientDisconnectCallback += OnClientDisconnect;
     }
-    
+
     private void OnClientDisconnect(ulong clientId)
     {
-        if(clientIdToAuth.TryGetValue(clientId,out string authId))
+        if (clientIdToAuth.TryGetValue(clientId, out string authId))
         {
             clientIdToAuth.Remove(clientId);
             authIdToUserData.Remove(authId);
+            OnClientLeft?.Invoke(authId);
         }
     }
 
     private void ApprovalCheck(
-        NetworkManager.ConnectionApprovalRequest request, 
+        NetworkManager.ConnectionApprovalRequest request,
         NetworkManager.ConnectionApprovalResponse response)
     {
         string payload = System.Text.Encoding.UTF8.GetString(request.Payload);
@@ -51,9 +54,9 @@ public class NetworkServer : IDisposable
 
     public UserData GetUserDataByClientId(ulong clientId)
     {
-        if(clientIdToAuth.TryGetValue(clientId,out string authId))
+        if (clientIdToAuth.TryGetValue(clientId, out string authId))
         {
-            if(authIdToUserData.TryGetValue(authId,out UserData data))
+            if (authIdToUserData.TryGetValue(authId, out UserData data))
             {
                 return data;
             }
@@ -62,10 +65,9 @@ public class NetworkServer : IDisposable
         return null;
     }
 
-    public void Dispose() 
-    { 
-        if(networkManager == null) { return; }
-
+    public void Dispose()
+    {
+        if (networkManager == null) { return; }
         networkManager.ConnectionApprovalCallback -= ApprovalCheck;
         networkManager.OnClientDisconnectCallback -= OnClientDisconnect;
         networkManager.OnServerStarted -= OnNetworkReady;

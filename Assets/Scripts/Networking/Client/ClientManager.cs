@@ -21,10 +21,10 @@ public class ClientManager : IDisposable
         await UnityServices.InitializeAsync();
 
         networkClient = new NetworkClient(NetworkManager.Singleton);
-        
+
         AuthState authState = await AuthenticationWrapper.DoAuth();
 
-        if(authState == AuthState.Authenticated)
+        if (authState == AuthState.Authenticated)
         {
             return true;
         }
@@ -43,12 +43,12 @@ public class ClientManager : IDisposable
         {
             allocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.Log(e);
             return;
         }
-        
+
         UnityTransport transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
 
         RelayServerData relayServiceData = allocation.ToRelayServerData("dtls");
@@ -57,7 +57,8 @@ public class ClientManager : IDisposable
         UserData userData = new UserData()
         {
             userName = PlayerPrefs.GetString(NameSelector.PlayerNameKey, "Missing Name"),
-            userAuthenId = AuthenticationService.Instance.PlayerId
+            userAuthenId = AuthenticationService.Instance.PlayerId,
+            teamIndex = PlayerPrefs.GetInt(TeamSelector.PlayerTeamKey, 0)
         };
         string payload = JsonUtility.ToJson(userData);
         byte[] payloadBytes = Encoding.UTF8.GetBytes(payload);
@@ -67,6 +68,10 @@ public class ClientManager : IDisposable
         NetworkManager.Singleton.StartClient();
     }
 
+    public void Disconnect()
+    {
+        networkClient.Disconnect();
+    }
     public void Dispose()
     {
         networkClient?.Dispose();
