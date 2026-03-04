@@ -14,6 +14,8 @@ public class DealDamageOnContract : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D col)
     {
+        if (!NetworkManager.Singleton.IsServer) { return; }
+
         if (col.attachedRigidbody == null) return;
         
         if(col.attachedRigidbody.TryGetComponent<NetworkObject>(out NetworkObject netObj))
