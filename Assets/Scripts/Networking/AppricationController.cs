@@ -1,10 +1,12 @@
 using UnityEngine;
 using System.Threading.Tasks;
+using Unity.Netcode;
 
 public class AppricationController : MonoBehaviour
 {
     [SerializeField] private ClientSingletron clientPrefab;
     [SerializeField] private HostSingletron hostPrefab;
+    [SerializeField] private NetworkObject playerPrefab;
     async void Start()
     {
         DontDestroyOnLoad(gameObject);
@@ -15,15 +17,15 @@ public class AppricationController : MonoBehaviour
     {
         if (isDedicatedServer)
         {
-
+            
         }
         else
         {
             HostSingletron hostSingleton = Instantiate(hostPrefab);
-            hostSingleton.CreateHost();
+            hostSingleton.CreateHost(playerPrefab);
 
             ClientSingletron clientSingleton = Instantiate(clientPrefab);
-            bool authenticated = await clientSingleton.CreateClient();
+            bool authenticated = await clientSingleton.CreateClient();            
 
             if (authenticated)
             {

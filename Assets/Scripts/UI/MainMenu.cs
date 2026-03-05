@@ -1,9 +1,12 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private TMP_InputField joinCodeField;
+    [SerializeField] private Toggle privateToggle;
 
     private void Start()
     {
@@ -16,7 +19,7 @@ public class MainMenu : MonoBehaviour
 
     public async void StartHost()
     {
-        await HostSingletron.Instance.GameManager.StartHostAsync();
+        await HostSingletron.Instance.GameManager.StartHostAsync(privateToggle.isOn);
     }
 
     public async void StartClient()

@@ -3,32 +3,30 @@ using Unity.Netcode;
 
 public class DealDamageOnContract : MonoBehaviour
 {
-    [SerializeField]private int damages = 5;
+    [SerializeField] private Projectile projectile;
+    [SerializeField] private int damage = 5;
 
-    private ulong ownerClientId;
-
-    public void SetOwner(ulong ownerClientId)
-    {
-        this.ownerClientId = ownerClientId;
-    }
-    
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (!NetworkManager.Singleton.IsServer) { return; }
+        if(col.attachedRigidbody == null) { return; }
 
-        if (col.attachedRigidbody == null) return;
-        
-        if(col.attachedRigidbody.TryGetComponent<NetworkObject>(out NetworkObject netObj))
+        if(projectile.TeamIndex != -1)
         {
-            if(ownerClientId == netObj.OwnerClientId)
+            if(col.attachedRigidbody != null)
             {
-                return;
-            }
-        }
+                if (col.attachedRigidbody.TryGetComponent<TankPlayer>(out TankPlayer player))
+                {
+                    if (player.TeamIndex.Value == projectile.TeamIndex)
+                    {
+                        return;
+                    }
+                }
+            }            
+        }        
 
-        if (col.attachedRigidbody.TryGetComponent<Health>(out Health health))
+        if(col.attachedRigidbody.TryGetComponent<Health>(out Health health))
         {
-            health.TakeDamage(damages);
+            health.TakeDamage(damage);
         }
     }
 }

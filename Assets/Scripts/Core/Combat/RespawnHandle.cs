@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class RespawnHandle : NetworkBehaviour
 {
-    [SerializeField] private NetworkObject playerPrefab;
+    [SerializeField] private TankPlayer playerPrefab;
+    [SerializeField] private float keptCoinPercentage = 50;
 
     public override void OnNetworkSpawn()
     {
-        if (!IsServer) { return; }
+        if(!IsServer) { return; }
         TankPlayer[] players = FindObjectsByType<TankPlayer>(FindObjectsSortMode.None);
-        foreach (TankPlayer player in players)
+        foreach(TankPlayer player in players)
         {
             HandlePlayerSpawned(player);
         }
@@ -38,18 +39,21 @@ public class RespawnHandle : NetworkBehaviour
 
     private void HandlePlayerDie(TankPlayer player)
     {
+        int keptCoins = (int)(player.Wallet.TotalCoins.Value * (keptCoinPercentage / 100));
         Destroy(player.gameObject);
 
-        StartCoroutine(RespawnPlayer(player.OwnerClientId));
+        StartCoroutine(RespawnPlayer(player.OwnerClientId,keptCoins));
     }
 
-    private IEnumerator RespawnPlayer(ulong ownerClientId)
+    private IEnumerator RespawnPlayer(ulong ownerClientId,int keptCoins)
     {
         yield return null;
 
-        NetworkObject playerInstance = Instantiate(
-            playerPrefab, SpawnPoints.GetRandomSpawnPos(), Quaternion.identity);
+        TankPlayer playerInstance = Instantiate(
+            playerPrefab, SpawnPoints.GetRandomSpawnPos(), Quaternion.identity);     
 
-        playerInstance.SpawnAsPlayerObject(ownerClientId);
+        playerInstance.NetworkObject.SpawnAsPlayerObject(ownerClientId);
+
+        playerInstance.Wallet.TotalCoins.Value += keptCoins;
     }
 }

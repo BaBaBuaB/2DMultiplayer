@@ -14,7 +14,7 @@ public class ClientSingletron : MonoBehaviour
 
             if(instance == null)
             {
-                Debug.LogError("No ClientSingleton in the scene!");
+                //Debug.LogError("No ClientSingleton in the scene!");
                 return null;
             }
             return instance;    
@@ -31,7 +31,7 @@ public class ClientSingletron : MonoBehaviour
 
         return await GameManager.InitAsync();
     }
-    
+
     private void OnDestroy()
     {
         GameManager?.Dispose();

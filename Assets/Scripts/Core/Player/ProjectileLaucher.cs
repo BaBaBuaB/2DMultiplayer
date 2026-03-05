@@ -1,9 +1,11 @@
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.EventSystems;
 
 public class ProjectileLaucher : NetworkBehaviour
 {
-    [Header("References")] 
+    [Header("References")]
+    [SerializeField] private TankPlayer player;
     [SerializeField] private InputReader inputReader;
     [SerializeField] private CoinWallet wallet;
     [SerializeField] private Transform projectileSpawnPoint;
@@ -12,27 +14,26 @@ public class ProjectileLaucher : NetworkBehaviour
     [SerializeField] private GameObject muzzleFlash;
     [SerializeField] private Collider2D playerCollider;
 
-    [Header("Settings")] 
+    [Header("Settings")]
     [SerializeField] private float projectileSpeed;
-
     [SerializeField] private float fireRate;
     [SerializeField] private float muzzleFlashDuration;
-    [SerializeField]private int costToFire = 1;
+    [SerializeField] private int costToFire = 5;
 
+    private bool isPointerOverUI;
     private bool shouldFire;
-    private float previousFireTime;
+    private float timer;
     private float muzzleFlashTimer;
-
     public override void OnNetworkSpawn()
     {
-        if(!IsOwner) {return;}
+        if (!IsOwner) { return; }
 
         inputReader.PrimaryFireEvent += HandlePrimaryFire;
     }
 
     public override void OnNetworkDespawn()
     {
-        if(!IsOwner) {return;}
+        if (!IsOwner) { return; }
 
         inputReader.PrimaryFireEvent -= HandlePrimaryFire;
     }
@@ -48,30 +49,39 @@ public class ProjectileLaucher : NetworkBehaviour
                 muzzleFlash.SetActive(false);
             }
         }
-        
+
         if (!IsOwner) { return; }
+        if (timer > 0)
+        {
+            timer -= Time.deltaTime;
+        }
+        isPointerOverUI = EventSystem.current.IsPointerOverGameObject();    
 
         if (!shouldFire) { return; }
-        
-        if(Time.time < (1/fireRate) + previousFireTime) { return;}
 
-        if (wallet.TotalCoins.Value < costToFire) return;
+        if (timer > 0) { return; }
+
+        if (wallet.TotalCoins.Value < costToFire) { return; }
 
         PrimaryFireServerRpc(projectileSpawnPoint.position, projectileSpawnPoint.up);
-        SpawnDummyProjectile(projectileSpawnPoint.position, projectileSpawnPoint.up);
+        SpawnDummyProjectile(projectileSpawnPoint.position, projectileSpawnPoint.up,player.TeamIndex.Value);
 
-        previousFireTime = Time.time;
+        timer = 1 / fireRate;
     }
-    
+
     private void HandlePrimaryFire(bool shouldFire)
     {
+        if (shouldFire) 
+        { 
+            if(isPointerOverUI) { return; }
+        }
         this.shouldFire = shouldFire;
     }
 
     [Rpc(SendTo.Server)]
-    private void PrimaryFireServerRpc(Vector3 spawnPos,Vector3 direction)
+    private void PrimaryFireServerRpc(Vector3 spawnPos, Vector3 direction)
     {
-        if (wallet.TotalCoins.Value < costToFire) return;
+        if (wallet.TotalCoins.Value < costToFire) { return; }
         wallet.SpendCoins(costToFire);
 
         GameObject projectileInstance = Instantiate(
@@ -80,42 +90,47 @@ public class ProjectileLaucher : NetworkBehaviour
             Quaternion.identity);
 
         projectileInstance.transform.up = direction;
-        Physics2D.IgnoreCollision(playerCollider,projectileInstance.GetComponent<Collider2D>());
+        Physics2D.IgnoreCollision(playerCollider, projectileInstance.GetComponent<Collider2D>());
 
-        if(projectileInstance.TryGetComponent<DealDamageOnContract>(out DealDamageOnContract dealDamage))
-        {
-            dealDamage.SetOwner(OwnerClientId);
+        if(projectileInstance.TryGetComponent<Projectile>(out Projectile projectile))
+        {            
+            projectile.Initialise(player.TeamIndex.Value);             
         }
-        
+
         if (projectileInstance.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
         {
             rb.linearVelocity = rb.transform.up * projectileSpeed;
         }
-        
-        SpawnDummyProjectileClientRpc(spawnPos, direction);
+
+        SpawnDummyProjectileClientRpc(spawnPos, direction,player.TeamIndex.Value);
     }
-    
+
     [Rpc(SendTo.ClientsAndHost)]
-    private void SpawnDummyProjectileClientRpc(Vector3 spawnPos, Vector3 direction)
+    private void SpawnDummyProjectileClientRpc(Vector3 spawnPos, Vector3 direction,int teamIndex)
     {
         if (IsOwner) { return; }
 
-        SpawnDummyProjectile(spawnPos, direction);
+        SpawnDummyProjectile(spawnPos, direction, teamIndex);
     }
 
-    
-    private void SpawnDummyProjectile(Vector3 spawnPos, Vector3 direction)
+    private void SpawnDummyProjectile(Vector3 spawnPos, Vector3 direction,int teamIndex)
     {
         muzzleFlash.SetActive(true);
         muzzleFlashTimer = muzzleFlashDuration;
-        
+
         GameObject projectileInstance = Instantiate(
             clientProjectilePrefab,
             spawnPos,
             Quaternion.identity);
 
         projectileInstance.transform.up = direction;
-        Physics2D.IgnoreCollision(playerCollider,projectileInstance.GetComponent<Collider2D>());
+
+        Physics2D.IgnoreCollision(playerCollider, projectileInstance.GetComponent<Collider2D>());
+
+        if (projectileInstance.TryGetComponent<Projectile>(out Projectile projectile))
+        {
+            projectile.Initialise(teamIndex);
+        }
 
         if (projectileInstance.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
         {
