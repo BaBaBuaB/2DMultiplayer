@@ -9946,7 +9946,7 @@ GameObject:
   - component: {fileID: 2865700977857694408}
   m_Layer: 0
   m_Name: TankTreat
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15386,6 +15386,7 @@ GameObject:
   - component: {fileID: 1016807727100228903}
   - component: {fileID: 4026986628617530543}
   - component: {fileID: 389073584897806435}
+  - component: {fileID: 8126140067367555665}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -15501,7 +15502,7 @@ MonoBehaviour:
   bodyTransform: {fileID: 8472392500052841450}
   rb: {fileID: 479268663591174924}
   dustCloud: {fileID: 8179087243875573163}
-  movementSpeed: 4
+  movementSpeed: 10
   turningRate: 30
   particleEmissionValue: 10
 --- !u!50 &479268663591174924
@@ -15559,6 +15560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileLaucher
   ShowTopMostFoldoutHeaderGroup: 1
+  player: {fileID: 1016807727100228903}
   inputReader: {fileID: 11400000, guid: ecb90009cc955ec46883e9516bc27eb1, type: 2}
   wallet: {fileID: 4026986628617530543}
   projectileSpawnPoint: {fileID: 7509460573286878526}
@@ -15567,9 +15569,9 @@ MonoBehaviour:
   muzzleFlash: {fileID: 9216536040079420124}
   playerCollider: {fileID: 2865700977857694408}
   projectileSpeed: 30
-  fireRate: 0.75
+  fireRate: 1
   muzzleFlashDuration: 0.075
-  costToFire: 2
+  costToFire: 1
 --- !u!114 &1985261987899888357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15686,6 +15688,23 @@ MonoBehaviour:
   - {fileID: 4508120891499431805}
   - {fileID: 1977836035788233128}
   colorIndex: 0
+--- !u!114 &8126140067367555665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7986878790339078902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkRigidbody2D
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkRigidbodyBaseExpanded: 0
+  UseRigidBodyForMotion: 0
+  AutoUpdateKinematicState: 1
+  AutoSetKinematicOnDespawn: 1
 --- !u!1 &8016672685430469131
 GameObject:
   m_ObjectHideFlags: 0

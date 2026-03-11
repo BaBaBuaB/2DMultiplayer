@@ -2234,13 +2234,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1436966798}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.004537886, y: 0, z: 0, w: 0.99998975}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1039281867}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.52, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -2260,9 +2260,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
   m_Padding:
     m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Right: 3
+    m_Top: 21
+    m_Bottom: 1
   m_ChildAlignment: 1
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
@@ -2284,8 +2284,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
-  m_HorizontalFit: 0
-  m_VerticalFit: 0
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!1001 &1451531432
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2917,6 +2917,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   leaderboardEntityHolder: {fileID: 1436966799}
   leaderboardEntityPrefab: {fileID: 2252811258198224543, guid: 60e5b5646406e7c49b084c79093c8bc9, type: 3}
+  entitiesToDisplay: 8
 --- !u!1001 &1960941733
 PrefabInstance:
   m_ObjectHideFlags: 0
